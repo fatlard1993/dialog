@@ -1,0 +1,29 @@
+{
+  "name": "prompt",
+  "version": "1.0.0",
+  "description": "A simple js prompt interface",
+  "main": "src/index.js",
+  "mainCss": "src/index.css",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fatlard1993/prompt.git"
+  },
+  "author": "fatlard1993",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fatlard1993/prompt/issues"
+  },
+  "homepage": "https://github.com/fatlard1993/prompt#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.13.0"
+  },
+  "dependencies": {
+    "js-util": "github:fatlard1993/js-util",
+    "dom": "github:fatlard1993/dom",
+    "log": "github:fatlard1993/log"
+  }
+}

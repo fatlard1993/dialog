@@ -1,0 +1,159 @@
+// includes colors dom
+
+div#promptWrapper {
+	@extend .hideable;
+
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 100;
+
+	background-color: rgba($black, 0.4);
+
+	div#prompt {
+		@extend .discardable;
+
+		position: relative;
+		top: 10%;
+		margin: 0 auto;
+
+		width: 300px;
+		color: $grey-darkest;
+		background-color: $grey-lightest;
+		border: 2px outset $grey-light;
+		border-radius: 7px;
+		box-shadow: inset 0 0 25px 1px rgba($grey, .75);
+
+		div.heading {
+			text-align: center;
+			color: inherit;
+
+			font-size: 20px;
+			padding-top: 5px;
+		}
+
+		div.content {
+			position: relative;
+			overflow-y: auto;
+			overflow-x: hidden;
+			white-space: pre-wrap;
+
+			text-align: center;
+			line-height: 17px;
+			padding: 13px;
+			width: 82%;
+			margin: 5px auto;
+			color: $grey-darkest;
+			border-top: 1px solid $grey-light;
+			border-bottom: 1px solid $grey-light;
+
+			p.validationWarning {
+				background: $red-light;
+				color: $red-darkest;
+				border-radius: 3px;
+				margin: 5px;
+				padding: 2px;
+				white-space: pre-wrap;
+			}
+
+			input[type="file"] {
+				width: 100%;
+				margin: 10px 0;
+			}
+
+			label {
+				display: block;
+				line-height: 20px;
+
+				input, select {
+					margin-left: 3px;
+				}
+
+				input[type="text"], input[type="number"], select{
+					width: 100px;
+					margin: 0 auto 6px;
+				}
+
+				input[type="password"]{
+					width: 125px;
+				}
+			}
+			label:not(:last-of-type){
+				margin-bottom: 6px;
+			}
+			label.surround {
+				border: 2px solid $grey-dark;
+				border-radius: 8px;
+				line-height: 30px;
+
+				input {
+					margin-bottom: 6px !important;
+				}
+			}
+			label.surround:after {
+				@extend .clear;
+			}
+		}
+
+		button {
+			display: inline-block;
+			text-transform: capitalize;
+			width: 50%;
+			margin: 7px 25%;
+			padding: 3px 0;
+		}
+		button.b2 {
+			width: 40%;
+			margin: 7px 5%;
+		}
+		button.b3 {
+			width: 30%;
+			margin: 7px 1.6%;
+		}
+	}
+	div#prompt.info {
+		border-color: $blue;
+		color: $blue-dark;
+	}
+	div#prompt.tip {
+		border-color: $purple;
+		color: $purple-dark;
+	}
+	div#prompt.success {
+		border-color: $green;
+		color: $green-dark;
+	}
+	div#prompt.warning {
+		border-color: $orange;
+		color: $orange-dark;
+	}
+	div#prompt.error {
+		border-color: $red;
+		color: $red-dark;
+	}
+}
+
+@media (max-height: 200px) {
+	div#promptWrapper{
+		div#prompt {
+			top: 0;
+			border: none;
+			border-radius: 0;
+
+			div.heading{
+				font-size: 14px;
+				padding: 0;
+			}
+			div.content{
+				padding: 1px;
+				border: none;
+			}
+			div button{
+				margin-top: 0 !important;
+				margin-bottom: 3px !important;
+			}
+		}
+	}
+}
