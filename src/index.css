@@ -1,4 +1,4 @@
-// includes colors dom
+// includes dom
 
 div#promptWrapper {
 	@extend .hideable;
@@ -9,8 +9,7 @@ div#promptWrapper {
 	top: 0;
 	left: 0;
 	z-index: 100;
-
-	background-color: rgba($black, 0.4);
+	background-color: rgba(255, 255, 255, 0.2);
 
 	div#prompt {
 		@extend .discardable;
@@ -18,18 +17,14 @@ div#promptWrapper {
 		position: relative;
 		top: 10%;
 		margin: 0 auto;
-
 		width: 300px;
-		color: $grey-darkest;
-		background-color: $grey-lightest;
-		border: 2px outset $grey-light;
-		border-radius: 7px;
-		box-shadow: inset 0 0 25px 1px rgba($grey, .75);
+		color: black;
+		background-color: white;
+		border: 2px outset grey;
 
 		div.heading {
 			text-align: center;
 			color: inherit;
-
 			font-size: 20px;
 			padding-top: 5px;
 		}
@@ -45,14 +40,13 @@ div#promptWrapper {
 			padding: 13px;
 			width: 82%;
 			margin: 5px auto;
-			color: $grey-darkest;
-			border-top: 1px solid $grey-light;
-			border-bottom: 1px solid $grey-light;
+			color: black;
+			border-top: 1px solid grey;
+			border-bottom: 1px solid grey;
 
 			p.validationWarning {
-				background: $red-light;
-				color: $red-darkest;
-				border-radius: 3px;
+				background: red;
+				color: black;
 				margin: 5px;
 				padding: 2px;
 				white-space: pre-wrap;
@@ -71,21 +65,20 @@ div#promptWrapper {
 					margin-left: 3px;
 				}
 
-				input[type="text"], input[type="number"], select{
+				input[type="text"], input[type="number"], select {
 					width: 100px;
 					margin: 0 auto 6px;
 				}
 
-				input[type="password"]{
+				input[type="password"] {
 					width: 125px;
 				}
 			}
-			label:not(:last-of-type){
+			label:not(:last-of-type) {
 				margin-bottom: 6px;
 			}
 			label.surround {
-				border: 2px solid $grey-dark;
-				border-radius: 8px;
+				border: 2px solid grey;
 				line-height: 30px;
 
 				input {
@@ -114,43 +107,39 @@ div#promptWrapper {
 		}
 	}
 	div#prompt.info {
-		border-color: $blue;
-		color: $blue-dark;
+		border-color: blue;
 	}
 	div#prompt.tip {
-		border-color: $purple;
-		color: $purple-dark;
+		border-color: purple;
 	}
 	div#prompt.success {
-		border-color: $green;
-		color: $green-dark;
+		border-color: green;
 	}
 	div#prompt.warning {
-		border-color: $orange;
-		color: $orange-dark;
+		border-color: orange;
 	}
 	div#prompt.error {
-		border-color: $red;
-		color: $red-dark;
+		border-color: red;
 	}
 }
 
 @media (max-height: 200px) {
-	div#promptWrapper{
+	div#promptWrapper {
 		div#prompt {
 			top: 0;
 			border: none;
-			border-radius: 0;
 
-			div.heading{
+			div.heading {
 				font-size: 14px;
 				padding: 0;
 			}
-			div.content{
+
+			div.content {
 				padding: 1px;
 				border: none;
 			}
-			div button{
+
+			div button {
 				margin-top: 0 !important;
 				margin-bottom: 3px !important;
 			}
