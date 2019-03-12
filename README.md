@@ -1,2 +1,2 @@
-# prompt
-A simple js prompt interface
+# dialog
+A simple js dialog interface

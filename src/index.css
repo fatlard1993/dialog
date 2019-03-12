@@ -1,6 +1,6 @@
 // includes dom
 
-div#promptWrapper {
+div#dialogWrapper {
 	@extend .hideable;
 
 	position: fixed;
@@ -11,7 +11,7 @@ div#promptWrapper {
 	z-index: 100;
 	background-color: rgba(255, 255, 255, 0.2);
 
-	div#prompt {
+	div#dialog {
 		@extend .discardable;
 
 		position: relative;
@@ -106,26 +106,26 @@ div#promptWrapper {
 			margin: 7px 1.6%;
 		}
 	}
-	div#prompt.info {
+	div#dialog.info {
 		border-color: blue;
 	}
-	div#prompt.tip {
+	div#dialog.tip {
 		border-color: purple;
 	}
-	div#prompt.success {
+	div#dialog.success {
 		border-color: green;
 	}
-	div#prompt.warning {
+	div#dialog.warning {
 		border-color: orange;
 	}
-	div#prompt.error {
+	div#dialog.error {
 		border-color: red;
 	}
 }
 
 @media (max-height: 200px) {
-	div#promptWrapper {
-		div#prompt {
+	div#dialogWrapper {
+		div#dialog {
 			top: 0;
 			border: none;
 

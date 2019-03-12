@@ -2,7 +2,7 @@
 // babel
 /* global util dom log ColorPicker */
 
-var prompt = function(className, heading, content, buttons, onAdd){
+var dialog = function(className, heading, content, buttons, onAdd){
 	if(className instanceof Object){
 		onAdd = className.onAdd;
 		buttons = className.buttons;
@@ -13,54 +13,54 @@ var prompt = function(className, heading, content, buttons, onAdd){
 
 	buttons = buttons || 'OK';
 
-	if(prompt.isOpen) return prompt.que.push([className, heading, content, buttons, onAdd]);
+	if(dialog.isOpen) return dialog.que.push([className, heading, content, buttons, onAdd]);
 
-	prompt.isOpen = true;
+	dialog.isOpen = true;
 
-	prompt.wrapper = prompt.wrapper || document.getElementById('promptWrapper') || dom.createElem('div', { id: 'promptWrapper', prependTo: document.body});
+	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', prependTo: document.body});
 
-	dom.animation.add('write', function prompt_anim(){
-		if(!prompt.active){
-			prompt.active = dom.createElem('div', { id: 'prompt' });
-			prompt.active.promptHeading = dom.createElem('div', { className: 'heading' });
-			prompt.active.promptContent = dom.createElem('div', { className: 'content' });
-			prompt.active.btnContainer = dom.createElem('div');
+	dom.animation.add('write', function dialog_anim(){
+		if(!dialog.active){
+			dialog.active = dom.createElem('div', { id: 'dialog' });
+			dialog.active.dialogHeading = dom.createElem('div', { className: 'heading' });
+			dialog.active.dialogContent = dom.createElem('div', { className: 'content' });
+			dialog.active.btnContainer = dom.createElem('div');
 
-			prompt.active.appendChild(prompt.active.promptHeading);
-			prompt.active.appendChild(prompt.active.promptContent);
-			prompt.active.appendChild(prompt.active.btnContainer);
+			dialog.active.appendChild(dialog.active.dialogHeading);
+			dialog.active.appendChild(dialog.active.dialogContent);
+			dialog.active.appendChild(dialog.active.btnContainer);
 
-			prompt.wrapper.appendChild(prompt.active);
+			dialog.wrapper.appendChild(dialog.active);
 		}
 
 		else{
-			dom.empty(prompt.active.promptContent);
-			dom.empty(prompt.active.btnContainer);
+			dom.empty(dialog.active.dialogContent);
+			dom.empty(dialog.active.btnContainer);
 		}
 
-		prompt.active.promptHeading.textContent = heading;
+		dialog.active.dialogHeading.textContent = heading;
 
-		if(content && content.nodeType) prompt.active.promptContent.appendChild(content);
+		if(content && content.nodeType) dialog.active.dialogContent.appendChild(content);
 
-		else if(content) prompt.active.promptContent.textContent = content;
+		else if(content) dialog.active.dialogContent.textContent = content;
 
 		buttons = buttons.split('|');
 
 		for(var x = 0, buttonCount = buttons.length, button; x < buttonCount; ++x){
-			button = dom.createElem('button', { className: 'promptBtn b'+ buttonCount + ((x + 1) === buttonCount ? ' defaultOption' : ''), textContent: buttons[x] });
+			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount + ((x + 1) === buttonCount ? ' defaultOption' : ''), textContent: buttons[x] });
 
-			prompt.active.btnContainer.appendChild(button);
+			dialog.active.btnContainer.appendChild(button);
 		}
 
-		dom.show(prompt.active, className, function(){
-			prompt.wrapper.className = '';
+		dom.show(dialog.active, className, function(){
+			dialog.wrapper.className = '';
 
-			prompt.fix();
+			dialog.fix();
 
 			if(onAdd) onAdd();
 
 			setTimeout(function(){
-				var firstInput = prompt.active.getElementsByTagName('input')[0];
+				var firstInput = dialog.active.getElementsByTagName('input')[0];
 
 				if(firstInput) firstInput.focus();
 			}, 250);
@@ -68,8 +68,8 @@ var prompt = function(className, heading, content, buttons, onAdd){
 	});
 };
 
-prompt.fix = function(){
-	if(prompt.isOpen){
+dialog.fix = function(){
+	if(dialog.isOpen){
 		dom.animation.add('write', function(){
 			var availableHeight = (dom.availableHeight + 5) - (dom.storage.get('largeUI') ? 107 : 91);
 			var maxHeight;
@@ -78,34 +78,34 @@ prompt.fix = function(){
 
 			else maxHeight = Math.floor(availableHeight * 0.8) - 32;
 
-			prompt.active.promptContent.style.maxHeight = maxHeight +'px';
+			dialog.active.dialogContent.style.maxHeight = maxHeight +'px';
 		});
 	}
 };
 
-prompt.que = [];
-prompt.resolve = {};
-prompt.validation = {};
+dialog.que = [];
+dialog.resolve = {};
+dialog.validation = {};
 
-prompt.dismiss = function(choice, evt){
-	if(prompt.isOpen){
-		choice = choice || prompt.active.getElementsByClassName('defaultOption')[0].textContent;
+dialog.dismiss = function(choice, evt){
+	if(dialog.isOpen){
+		choice = choice || dialog.active.getElementsByClassName('defaultOption')[0].textContent;
 
-		var promptName = prompt.active.className.replace(/error|warning|success|info|\s/g, '');
+		var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
 
-		if({ OK: 1 }[choice]) prompt.validate();
+		if({ OK: 1 }[choice]) dialog.validate();
 
-		if(prompt.resolve[promptName]) prompt.resolve[promptName](choice, evt);
+		if(dialog.resolve[dialogName]) dialog.resolve[dialogName](choice, evt);
 
-		dom.discard(prompt.active, null, function(){
-			prompt.isOpen = false;
+		dom.discard(dialog.active, null, function(){
+			dialog.isOpen = false;
 
-			if(prompt.que.length){
-				prompt.apply(null, prompt.que.shift());
+			if(dialog.que.length){
+				dialog.apply(null, dialog.que.shift());
 			}
 
 			else{
-				dom.hide(prompt.wrapper);
+				dom.hide(dialog.wrapper);
 			}
 
 			document.activeElement.blur();
@@ -113,55 +113,55 @@ prompt.dismiss = function(choice, evt){
 	}
 };
 
-prompt.validate = function(){
-	var promptName = prompt.active.className.replace(/error|warning|success|info|\s/g, '');
-	var invalidElements = prompt.active.promptContent.getElementsByClassName('invalid');
+dialog.validate = function(){
+	var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
+	var invalidElements = dialog.active.dialogContent.getElementsByClassName('invalid');
 
 	if(invalidElements.length){
-		if(prompt.active.validationWarning) dom.remove(prompt.active.getElementsByClassName('validationWarning'));
+		if(dialog.active.validationWarning) dom.remove(dialog.active.getElementsByClassName('validationWarning'));
 
-		prompt.active.getElementsByClassName('defaultOption')[0].className = prompt.active.getElementsByClassName('defaultOption')[0].className.replace(/\s?active/, '');
+		dialog.active.getElementsByClassName('defaultOption')[0].className = dialog.active.getElementsByClassName('defaultOption')[0].className.replace(/\s?active/, '');
 
 		for(var x = 0; x < invalidElements.length; ++x){
 			var validationWarning = dom.validate(invalidElements[x]);
 
 			if(validationWarning){
-				prompt.active.validationWarning = 1;
+				dialog.active.validationWarning = 1;
 
 				invalidElements[x].parentElement.insertBefore(dom.createElem('p', { className: 'validationWarning', textContent: validationWarning }), invalidElements[x]);
 			}
 		}
 
-		if(!prompt.active.validationWarning){
-			prompt.active.validationWarning = dom.createElem('p', { className: 'validationWarning', textContent: 'There are fields which require your attention!' });
+		if(!dialog.active.validationWarning){
+			dialog.active.validationWarning = dom.createElem('p', { className: 'validationWarning', textContent: 'There are fields which require your attention!' });
 
-			dom.prependChild(prompt.active.promptContent, prompt.active.validationWarning);
+			dom.prependChild(dialog.active.dialogContent, dialog.active.validationWarning);
 		}
 
-		if(prompt.validation[promptName]) prompt.validation[promptName](invalidElements);
+		if(dialog.validation[dialogName]) dialog.validation[dialogName](invalidElements);
 
 		return;
 	}
 };
 
-prompt.err = function(message, onAdd){
-	prompt('error', 'Error', message, 'OK', onAdd);
+dialog.err = function(message, onAdd){
+	dialog('error', 'Error', message, 'OK', onAdd);
 };
 
-prompt.wrn = function(message, onAdd){
-	prompt('warning', 'Warning', message, 'OK', onAdd);
+dialog.wrn = function(message, onAdd){
+	dialog('warning', 'Warning', message, 'OK', onAdd);
 };
 
-prompt.info = function(message, onAdd){
-	prompt('info', 'Info', message, 'OK', onAdd);
+dialog.info = function(message, onAdd){
+	dialog('info', 'Info', message, 'OK', onAdd);
 };
 
-prompt.success = function(message, onAdd){
-	prompt('success', 'Success', message, 'OK', onAdd);
+dialog.success = function(message, onAdd){
+	dialog('success', 'Success', message, 'OK', onAdd);
 };
 
-prompt.tip = function(tipName){
-	prompt.tip.list = prompt.tip.list  || {};
+dialog.tip = function(tipName){
+	dialog.tip.list = dialog.tip.list  || {};
 
 	var tip;
 
@@ -170,9 +170,9 @@ prompt.tip = function(tipName){
 		tipName = tip.heading;
 	}
 
-	else tip = prompt.tip.list[tipName];
+	else tip = dialog.tip.list[tipName];
 
-	if(!tip) tip = { 	content: 'prompt.tip.list['+ tipName +'] does not exist!' };
+	if(!tip) tip = { 	content: 'dialog.tip.list['+ tipName +'] does not exist!' };
 
 	if(tip.id && dom.storage.get('blacklist_tip:'+ tip.id) === 'true') return;
 
@@ -186,20 +186,20 @@ prompt.tip = function(tipName){
 		blacklistLabel.appendChild(blacklistCheckbox);
 		content.appendChild(blacklistLabel);
 
-		prompt.resolve.tip = function(){
+		dialog.resolve.tip = function(){
 			if(blacklistCheckbox.checked) dom.storage.set('blacklist_tip:'+ tip.id, true);
 		};
 	}
 
-	prompt('tip', tipName, content, 'OK');
+	dialog('tip', tipName, content, 'OK');
 };
 
-prompt.form = function(heading, inputs, buttons, onResolve, text){
-	var promptID = heading.replace(/\s/g, '_');
+dialog.form = function(heading, inputs, buttons, onResolve, text){
+	var dialogID = heading.replace(/\s/g, '_');
 	var inputNames = Object.keys(inputs), inputCount = inputNames.length;
 	var formObj = {};
 
-	prompt(promptID, heading, text, buttons, function(){
+	dialog(dialogID, heading, text, buttons, function(){
 		for(var x = 0; x < inputCount; ++x){
 			var inputType = (typeof inputs[inputNames[x]]).replace('string', 'text').replace('boolean', 'checkbox');
 			if(typeof ColorPicker !== 'undefined' && inputType === 'text' && inputs[inputNames[x]].startsWith('rgb')) inputType = 'colorPicker';
@@ -218,12 +218,12 @@ prompt.form = function(heading, inputs, buttons, onResolve, text){
 			label.textContent = util.capitalize(util.fromCamelCase(inputNames[x])) +': ';
 			label.appendChild(input);
 
-			prompt.active.promptContent.appendChild(label);
+			dialog.active.dialogContent.appendChild(label);
 
 			if(x === 0) input.select();
 		}
 
-		prompt.resolve[promptID] = function(choice){
+		dialog.resolve[dialogID] = function(choice){
 			var changesObj = {};
 
 			for(var x = 0; x < inputCount; ++x){
@@ -242,60 +242,60 @@ prompt.form = function(heading, inputs, buttons, onResolve, text){
 	});
 };
 
-prompt.clearAll = function(){
-	prompt.que = [];
-	prompt.dismiss('cancel');
+dialog.clearAll = function(){
+	dialog.que = [];
+	dialog.dismiss('cancel');
 };
 
-prompt.onPointerUp = function(evt){
-	if(evt.target.className.includes('promptBtn')){
+dialog.onPointerUp = function(evt){
+	if(evt.target.className.includes('dialogBtn')){
 		evt.preventDefault();
 		dom.interact.pointerTarget = null;
 
-		prompt.dismiss(evt.target.textContent, evt);
+		dialog.dismiss(evt.target.textContent, evt);
 	}
 };
 
-prompt.onKeyDown = function(evt, keyPressed){
+dialog.onKeyDown = function(evt, keyPressed){
 	if(keyPressed === 'ENTER'){
-		if(prompt.isOpen){
+		if(dialog.isOpen){
 			evt.preventDefault();
 
-			prompt.active.getElementsByClassName('defaultOption')[0].className += ' active';
+			dialog.active.getElementsByClassName('defaultOption')[0].className += ' active';
 		}
 	}
 };
 
-prompt.onKeyUp = function(evt, keyPressed){
+dialog.onKeyUp = function(evt, keyPressed){
 	if(keyPressed === 'ENTER'){
-		if(prompt.isOpen){
+		if(dialog.isOpen){
 			evt.preventDefault();
 
 			document.activeElement.blur();
 
-			prompt.dismiss(prompt.active.getElementsByClassName('defaultOption')[0].textContent, evt);
+			dialog.dismiss(dialog.active.getElementsByClassName('defaultOption')[0].textContent, evt);
 		}
 	}
 
 	else if(keyPressed === 'ESCAPE'){
-		if(prompt.isOpen){
+		if(dialog.isOpen){
 			evt.preventDefault();
 
-			prompt.dismiss('cancel');
+			dialog.dismiss('cancel');
 		}
 	}
 
-	if(prompt.active && prompt.active.validationWarning){
-		dom.remove(prompt.active.getElementsByClassName('validationWarning'));
+	if(dialog.active && dialog.active.validationWarning){
+		dom.remove(dialog.active.getElementsByClassName('validationWarning'));
 
-		delete prompt.active.validationWarning;
+		delete dialog.active.validationWarning;
 
-		prompt.validate();
+		dialog.validate();
 	}
 };
 
-prompt.init = function(){
-	dom.interact.on('pointerUp', prompt.onPointerUp);
-	dom.interact.on('keyDown', prompt.onKeyDown);
-	dom.interact.on('keyUp', prompt.onKeyUp);
+dialog.init = function(){
+	dom.interact.on('pointerUp', dialog.onPointerUp);
+	dom.interact.on('keyDown', dialog.onKeyDown);
+	dom.interact.on('keyUp', dialog.onKeyUp);
 };
