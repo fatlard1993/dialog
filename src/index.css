@@ -59,15 +59,15 @@ div#dialogWrapper {
 
 			label {
 				display: block;
-				line-height: 20px;
+				line-height: 30px;
 
 				input, select {
 					margin-left: 3px;
 				}
 
 				input[type="text"], input[type="number"], select {
-					width: 100px;
-					margin: 0 auto 6px;
+					display: block;
+					margin: 0 auto;
 				}
 
 				input[type="password"] {
