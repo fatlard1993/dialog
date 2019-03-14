@@ -17,32 +17,32 @@ var dialog = function(className, heading, content, buttons, onAdd){
 
 	dialog.isOpen = true;
 
-	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', prependTo: document.body});
+	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', prependTo: document.body });
 
 	dom.animation.add('write', function dialog_anim(){
 		if(!dialog.active){
 			dialog.active = dom.createElem('div', { id: 'dialog' });
-			dialog.active.dialogHeading = dom.createElem('div', { className: 'heading' });
-			dialog.active.dialogContent = dom.createElem('div', { className: 'content' });
+			dialog.active.heading = dom.createElem('div', { className: 'heading' });
+			dialog.active.content = dom.createElem('div', { className: 'content' });
 			dialog.active.btnContainer = dom.createElem('div');
 
-			dialog.active.appendChild(dialog.active.dialogHeading);
-			dialog.active.appendChild(dialog.active.dialogContent);
+			dialog.active.appendChild(dialog.active.heading);
+			dialog.active.appendChild(dialog.active.content);
 			dialog.active.appendChild(dialog.active.btnContainer);
 
 			dialog.wrapper.appendChild(dialog.active);
 		}
 
 		else{
-			dom.empty(dialog.active.dialogContent);
+			dom.empty(dialog.active.content);
 			dom.empty(dialog.active.btnContainer);
 		}
 
-		dialog.active.dialogHeading.textContent = heading;
+		dialog.active.heading.textContent = heading;
 
-		if(content && content.nodeType) dialog.active.dialogContent.appendChild(content);
+		if(content && content.nodeType) dialog.active.content.appendChild(content);
 
-		else if(content) dialog.active.dialogContent.textContent = content;
+		else if(content) dialog.active.content.textContent = content;
 
 		buttons = buttons.split('|');
 
@@ -78,7 +78,7 @@ dialog.fix = function(){
 
 			else maxHeight = Math.floor(availableHeight * 0.8) - 32;
 
-			dialog.active.dialogContent.style.maxHeight = maxHeight +'px';
+			dialog.active.content.style.maxHeight = maxHeight +'px';
 		});
 	}
 };
@@ -115,7 +115,7 @@ dialog.dismiss = function(choice, evt){
 
 dialog.validate = function(){
 	var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
-	var invalidElements = dialog.active.dialogContent.getElementsByClassName('invalid');
+	var invalidElements = dialog.active.content.getElementsByClassName('invalid');
 
 	if(invalidElements.length){
 		if(dialog.active.validationWarning) dom.remove(dialog.active.getElementsByClassName('validationWarning'));
@@ -135,7 +135,7 @@ dialog.validate = function(){
 		if(!dialog.active.validationWarning){
 			dialog.active.validationWarning = dom.createElem('p', { className: 'validationWarning', textContent: 'There are fields which require your attention!' });
 
-			dom.prependChild(dialog.active.dialogContent, dialog.active.validationWarning);
+			dom.prependChild(dialog.active.content, dialog.active.validationWarning);
 		}
 
 		if(dialog.validation[dialogName]) dialog.validation[dialogName](invalidElements);
@@ -218,7 +218,7 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 			label.textContent = util.capitalize(util.fromCamelCase(inputNames[x])) +': ';
 			label.appendChild(input);
 
-			dialog.active.dialogContent.appendChild(label);
+			dialog.active.content.appendChild(label);
 
 			if(x === 0) input.select();
 		}
