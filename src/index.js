@@ -42,6 +42,8 @@ var dialog = function(className, heading, content, buttons, onAdd){
 
 		if(content && content.nodeType) dialog.active.content.appendChild(content);
 
+		else if(typeof content === 'object') dom.appendChildren.apply(null, content.unshift(dialog.active.content) && content);
+
 		else if(content) dialog.active.content.textContent = content;
 
 		buttons = buttons.split('|');
