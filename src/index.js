@@ -49,7 +49,7 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		buttons = buttons.split('|');
 
 		for(var x = 0, buttonCount = buttons.length, button; x < buttonCount; ++x){
-			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount + ((x + 1) === buttonCount ? ' defaultOption' : ''), textContent: buttons[x] });
+			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount + ((x + 1) === buttonCount ? ' default' : ''), textContent: buttons[x] });
 
 			dialog.active.btnContainer.appendChild(button);
 		}
@@ -91,7 +91,7 @@ dialog.validation = {};
 
 dialog.dismiss = function(choice, evt){
 	if(dialog.isOpen){
-		choice = choice || dialog.active.getElementsByClassName('defaultOption')[0].textContent;
+		choice = choice || dialog.active.getElementsByClassName('default')[0].textContent;
 
 		var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
 
@@ -122,7 +122,7 @@ dialog.validate = function(){
 	if(invalidElements.length){
 		if(dialog.active.validationWarning) dom.remove(dialog.active.getElementsByClassName('validationWarning'));
 
-		dialog.active.getElementsByClassName('defaultOption')[0].className = dialog.active.getElementsByClassName('defaultOption')[0].className.replace(/\s?active/, '');
+		dialog.active.getElementsByClassName('default')[0].className = dialog.active.getElementsByClassName('default')[0].className.replace(/\s?active/, '');
 
 		for(var x = 0; x < invalidElements.length; ++x){
 			var validationWarning = dom.validate(invalidElements[x]);
@@ -263,7 +263,7 @@ dialog.onKeyDown = function(evt, keyPressed){
 		if(dialog.isOpen){
 			evt.preventDefault();
 
-			dialog.active.getElementsByClassName('defaultOption')[0].className += ' active';
+			dialog.active.getElementsByClassName('default')[0].className += ' active';
 		}
 	}
 };
@@ -275,7 +275,7 @@ dialog.onKeyUp = function(evt, keyPressed){
 
 			document.activeElement.blur();
 
-			dialog.dismiss(dialog.active.getElementsByClassName('defaultOption')[0].textContent, evt);
+			dialog.dismiss(dialog.active.getElementsByClassName('default')[0].textContent, evt);
 		}
 	}
 
