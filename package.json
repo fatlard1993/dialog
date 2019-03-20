@@ -28,6 +28,7 @@
 	"dependencies": {
 		"js-util": "github:fatlard1993/js-util#2.x.x",
 		"log": "github:fatlard1993/log#2.x.x",
-		"dom": "github:fatlard1993/dom#2.x.x"
+		"dom": "github:fatlard1993/dom#2.x.x",
+		"colorPicker": "github:fatlard1993/colorPicker#2.x.x"
 	}
 }
