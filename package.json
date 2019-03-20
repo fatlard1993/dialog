@@ -21,13 +21,13 @@
 		"extends": "rules"
 	},
 	"devDependencies": {
-		"eslint-config-rules": "github:fatlard1993/eslint-config-rules"
+		"eslint-config-rules": "github:fatlard1993/eslint-config-rules#2.x.x",
+		"babel-eslint": "^10.0.1",
+		"eslint": "^5.15.3"
 	},
-	"peerDependencies": {
-		"babel-eslint": ">= 10",
-		"eslint": ">= 5",
-		"js-util": "github:fatlard1993/js-util",
-		"dom": "github:fatlard1993/dom",
-		"log": "github:fatlard1993/log"
+	"dependencies": {
+		"js-util": "github:fatlard1993/js-util#2.x.x",
+		"log": "github:fatlard1993/log#2.x.x",
+		"dom": "github:fatlard1993/dom#2.x.x"
 	}
 }
