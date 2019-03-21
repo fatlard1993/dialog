@@ -1,4 +1,4 @@
-// includes js-util dom log colorPicker
+// includes js-util dom log color-picker
 // babel
 /* global util dom log colorPicker */
 
