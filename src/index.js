@@ -174,7 +174,7 @@ dialog.tip = function(tipName){
 
 	else tip = dialog.tip.list[tipName];
 
-	if(!tip) tip = { 	content: 'dialog.tip.list['+ tipName +'] does not exist!' };
+	if(!tip) tip = { 	content: `dialog.tip.list[${tipName}] does not exist!` };
 
 	if(tip.id && dom.storage.get('blacklist_tip:'+ tip.id) === 'true') return;
 
@@ -249,42 +249,40 @@ dialog.clearAll = function(){
 	dialog.dismiss('cancel');
 };
 
-dialog.onPointerUp = function(evt){
+dom.interact.on('pointerUp', function(evt){
 	if(evt.target.className.includes('dialogBtn')){
 		evt.preventDefault();
 		dom.interact.pointerTarget = null;
 
 		dialog.dismiss(evt.target.textContent, evt);
 	}
-};
+});
 
-dialog.onKeyDown = function(evt, keyPressed){
-	if(keyPressed === 'ENTER'){
-		if(dialog.isOpen){
-			evt.preventDefault();
+dom.interact.on('keyDown', function(evt){
+	if(!dialog.isOpen) return;
 
-			dialog.active.getElementsByClassName('default')[0].className += ' active';
-		}
+	if(evt.keyPressed === 'ENTER'){
+		evt.preventDefault();
+
+		dialog.active.getElementsByClassName('default')[0].className += ' active';
 	}
-};
+});
 
-dialog.onKeyUp = function(evt, keyPressed){
-	if(keyPressed === 'ENTER'){
-		if(dialog.isOpen){
-			evt.preventDefault();
+dom.interact.on('keyUp', function(evt){
+	if(!dialog.isOpen) return;
 
-			document.activeElement.blur();
+	if(evt.keyPressed === 'ENTER'){
+		evt.preventDefault();
 
-			dialog.dismiss(dialog.active.getElementsByClassName('default')[0].textContent, evt);
-		}
+		document.activeElement.blur();
+
+		dialog.dismiss(dialog.active.getElementsByClassName('default')[0].textContent, evt);
 	}
 
-	else if(keyPressed === 'ESCAPE'){
-		if(dialog.isOpen){
-			evt.preventDefault();
+	else if(evt.keyPressed === 'ESCAPE'){
+		evt.preventDefault();
 
-			dialog.dismiss('cancel');
-		}
+		dialog.dismiss('cancel');
 	}
 
 	if(dialog.active && dialog.active.validationWarning){
@@ -294,10 +292,4 @@ dialog.onKeyUp = function(evt, keyPressed){
 
 		dialog.validate();
 	}
-};
-
-dialog.init = function(){
-	dom.interact.on('pointerUp', dialog.onPointerUp);
-	dom.interact.on('keyDown', dialog.onKeyDown);
-	dom.interact.on('keyUp', dialog.onKeyUp);
-};
+});
