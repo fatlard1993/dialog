@@ -102,13 +102,9 @@ dialog.dismiss = function(choice, evt){
 		dom.discard(dialog.active, null, function(){
 			dialog.isOpen = false;
 
-			if(dialog.que.length){
-				dialog.apply(null, dialog.que.shift());
-			}
+			if(dialog.que.length) dialog.apply(null, dialog.que.shift());
 
-			else{
-				dom.hide(dialog.wrapper);
-			}
+			else setTimeout(function(){ dom.disappear(dialog.wrapper); }, 200);
 
 			document.activeElement.blur();
 		}, 200);
