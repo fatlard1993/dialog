@@ -248,7 +248,6 @@ dialog.clearAll = function(){
 dom.interact.on('pointerUp', function(evt){
 	if(evt.target.className.includes('dialogBtn')){
 		evt.preventDefault();
-		dom.interact.pointerTarget = null;
 
 		dialog.dismiss(evt.target.textContent, evt);
 	}
