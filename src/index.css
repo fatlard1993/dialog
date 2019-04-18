@@ -20,7 +20,6 @@ div#dialogWrapper {
 		width: 300px;
 		color: black;
 		background-color: white;
-		border: 2px outset grey;
 
 		div.heading {
 			text-align: center;
@@ -43,14 +42,6 @@ div#dialogWrapper {
 			color: black;
 			border-top: 1px solid grey;
 			border-bottom: 1px solid grey;
-
-			p.validationWarning {
-				background: red;
-				color: black;
-				margin: 5px;
-				padding: 2px;
-				white-space: pre-wrap;
-			}
 
 			input[type="file"] {
 				width: 100%;
@@ -105,21 +96,6 @@ div#dialogWrapper {
 			width: 30%;
 			margin: 7px 1.6%;
 		}
-	}
-	div#dialog.info {
-		border-color: blue;
-	}
-	div#dialog.tip {
-		border-color: purple;
-	}
-	div#dialog.success {
-		border-color: green;
-	}
-	div#dialog.warning {
-		border-color: orange;
-	}
-	div#dialog.error {
-		border-color: red;
 	}
 }
 
