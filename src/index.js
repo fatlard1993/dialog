@@ -11,7 +11,9 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		className = className.className;
 	}
 
-	buttons = buttons || 'OK';
+	if(typeof buttons === 'undefined') buttons = 1;
+	if(typeof buttons === 'string') buttons = buttons.split('|');
+	if(typeof buttons === 'number') buttons = [['x'], ['OK'], ['Cancel', 'OK']][buttons || 0];
 
 	if(dialog.isOpen) return dialog.que.push([className, heading, content, buttons, onAdd]);
 
@@ -45,8 +47,6 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		else if(typeof content === 'object') dom.appendChildren.apply(null, content.unshift(dialog.active.content) && content);
 
 		else if(content) dialog.active.content.textContent = content;
-
-		buttons = buttons.split('|');
 
 		for(var x = 0, buttonCount = buttons.length, button; x < buttonCount; ++x){
 			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount + ((x + 1) === buttonCount ? ' default' : ''), textContent: buttons[x] });
