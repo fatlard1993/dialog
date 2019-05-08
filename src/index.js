@@ -40,6 +40,7 @@ var dialog = function(className, heading, content, buttons, onAdd){
 			dom.empty(dialog.active.btnContainer);
 		}
 
+		dialog.active.className = className;
 		dialog.active.heading.textContent = heading;
 
 		if(content && content.nodeType) dialog.active.content.appendChild(content);
@@ -49,12 +50,14 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		else if(content) dialog.active.content.textContent = content;
 
 		for(var x = 0, buttonCount = buttons.length, button; x < buttonCount; ++x){
-			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount + ((x + 1) === buttonCount ? ' default' : ''), textContent: buttons[x] });
+			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount, textContent: buttons[x], appendTo: dialog.active.btnContainer });
 
-			dialog.active.btnContainer.appendChild(button);
+			if(buttonCount === 1 && buttons[x] === 'x') button.classList.add('x');
+
+			if((x + 1) === buttonCount) button.classList.add('default');
 		}
 
-		dom.show(dialog.active, className, function(){
+		dom.show(dialog.active, '', function(){
 			dialog.wrapper.className = '';
 
 			dialog.fix();
@@ -143,7 +146,7 @@ dialog.validate = function(){
 };
 
 dialog.err = function(message, onAdd){
-	dialog('error', 'Error', message, 'OK', onAdd);
+	dialog('error', 'Error', message, 0, onAdd);
 };
 
 dialog.wrn = function(message, onAdd){
