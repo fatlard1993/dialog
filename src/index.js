@@ -52,7 +52,10 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		for(var x = 0, buttonCount = buttons.length, button; x < buttonCount; ++x){
 			button = dom.createElem('button', { className: 'dialogBtn b'+ buttonCount, textContent: buttons[x], appendTo: dialog.active.btnContainer });
 
-			if(buttonCount === 1 && buttons[x] === 'x') button.classList.add('x');
+			if(buttonCount === 1 && buttons[x] === 'x'){
+				button.textContent = '';
+				button.classList.add('x');
+			}
 
 			if((x + 1) === buttonCount) button.classList.add('default');
 		}
