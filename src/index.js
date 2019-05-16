@@ -15,8 +15,11 @@ var dialog = function(className, heading, content, buttons, onAdd){
 	if(typeof buttons === 'string') buttons = buttons.split('|');
 	if(typeof buttons === 'number') buttons = [['x'], ['OK'], ['Cancel', 'OK']][buttons || 0];
 
-	if(dialog.isOpen) return dialog.que.push([className, heading, content, buttons, onAdd]);
+	var dialogSettings = [className, heading, content, buttons, onAdd];
 
+	if(dialog.isOpen) return dialog.que.push(dialogSettings);
+
+	dialog.named = dialog.named || {};
 	dialog.isOpen = true;
 
 	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', prependTo: document.body });
@@ -42,6 +45,9 @@ var dialog = function(className, heading, content, buttons, onAdd){
 
 		dialog.active.className = className;
 		dialog.active.heading.textContent = heading;
+		dialog.active.name = className.replace(/error|warning|success|info|\s/g, '');
+
+		if(dialog.active.name) dialog.named[dialog.active.name] = dialog.bind(null, ...dialogSettings);
 
 		if(content && content.nodeType) dialog.active.content.appendChild(content);
 
