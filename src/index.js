@@ -158,7 +158,7 @@ dialog.err = function(message, onAdd){
 	dialog('error', 'Error', message, 0, onAdd);
 };
 
-dialog.wrn = function(message, onAdd){
+dialog.warn = function(message, onAdd){
 	dialog('warning', 'Warning', message, 'OK', onAdd);
 };
 
