@@ -116,7 +116,7 @@ dialog.dismiss = function(choice, evt){
 
 			if(dialog.que.length) dialog.apply(null, dialog.que.shift());
 
-			else setTimeout(function(){ dom.disappear(dialog.wrapper); }, 200);
+			else setTimeout(function(){ dom.discard(dialog.wrapper); }, 200);
 
 			document.activeElement.blur();
 		}, 200);
