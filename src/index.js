@@ -71,6 +71,8 @@ var dialog = function(className, heading, content, buttons, onAdd){
 
 			dialog.fix();
 
+			document.activeElement.blur();
+
 			if(onAdd) onAdd();
 
 			setTimeout(function(){
