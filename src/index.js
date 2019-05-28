@@ -248,7 +248,7 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 				if(value !== inputs[inputNames[x]]) changesObj[inputNames[x]] = value;
 			}
 
-			log()(formObj);
+			log()('[dialog]', formObj);
 			onResolve(choice, changesObj);
 		};
 	});
