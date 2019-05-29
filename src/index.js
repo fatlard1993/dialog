@@ -275,6 +275,14 @@ dom.interact.on('keyDown', function(evt){
 
 		dialog.active.getElementsByClassName('default')[0].className += ' active';
 	}
+
+	else if(evt.keyPressed === 'ESCAPE'){
+		evt.preventDefault();
+
+		var xButton = dialog.active.getElementsByClassName('x')[0];
+
+		if(xButton) xButton.className += ' active';
+	}
 });
 
 dom.interact.on('keyUp', function(evt){
