@@ -104,25 +104,28 @@ dialog.resolve = {};
 dialog.validation = {};
 
 dialog.dismiss = function(choice, evt){
-	if(dialog.isOpen){
-		choice = choice || dialog.active.getElementsByClassName('default')[0].textContent;
+	if(!dialog.isOpen || dialog.closing) return;
 
-		var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
+	dialog.closing = true;
 
-		if({ OK: 1 }[choice]) dialog.validate();
+	choice = choice || dialog.active.getElementsByClassName('default')[0].textContent;
 
-		if(dialog.resolve[dialogName]) dialog.resolve[dialogName](choice, evt);
+	var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
 
-		dom.discard(dialog.active, null, function(){
-			dialog.isOpen = false;
+	if({ OK: 1 }[choice]) dialog.validate();
 
-			if(dialog.que.length) dialog.apply(null, dialog.que.shift());
+	if(dialog.resolve[dialogName]) dialog.resolve[dialogName](choice, evt);
 
-			else setTimeout(function(){ dom.discard(dialog.wrapper); }, 200);
+	dom.discard(dialog.active, null, function(){
+		dialog.isOpen = false;
+		dialog.closing = false;
 
-			document.activeElement.blur();
-		}, 200);
-	}
+		if(dialog.que.length) dialog.apply(null, dialog.que.shift());
+
+		else setTimeout(function(){ dom.discard(dialog.wrapper); }, 200);
+
+		document.activeElement.blur();
+	}, 200);
 };
 
 dialog.validate = function(){
