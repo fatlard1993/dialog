@@ -273,7 +273,7 @@ dom.interact.on('pointerUp', function(evt){
 dom.interact.on('keyDown', function(evt){
 	if(!dialog.isOpen) return;
 
-	if(evt.keyPressed === 'ENTER'){
+	if(evt.keyPressed === 'ENTER' && (evt.ctrlKey || evt.target.nodeName !== 'TEXTAREA')){
 		evt.preventDefault();
 
 		dialog.active.getElementsByClassName('default')[0].className += ' active';
@@ -291,7 +291,7 @@ dom.interact.on('keyDown', function(evt){
 dom.interact.on('keyUp', function(evt){
 	if(!dialog.isOpen) return;
 
-	if(evt.keyPressed === 'ENTER'){
+	if(evt.keyPressed === 'ENTER' && (evt.ctrlKey || evt.target.nodeName !== 'TEXTAREA')){
 		evt.preventDefault();
 
 		document.activeElement.blur();
