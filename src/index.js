@@ -106,13 +106,19 @@ dialog.validation = {};
 dialog.dismiss = function(choice, evt){
 	if(!dialog.isOpen || dialog.closing) return;
 
-	dialog.closing = true;
-
 	choice = choice || dialog.active.getElementsByClassName('default')[0].textContent;
+
+	if({ OK: 1 }[choice]){
+		var warnings = dom.showValidationWarnings(dialog.active.content);
+
+		if(dialog.active.getElementsByClassName('active')[0]) dialog.active.getElementsByClassName('active')[0].classList.remove('active');
+
+		if(warnings) return;
+	}
 
 	var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
 
-	if({ OK: 1 }[choice]) dialog.validate();
+	dialog.closing = true;
 
 	if(dialog.resolve[dialogName]) dialog.resolve[dialogName](choice, evt);
 
@@ -126,37 +132,6 @@ dialog.dismiss = function(choice, evt){
 
 		document.activeElement.blur();
 	}, 200);
-};
-
-dialog.validate = function(){
-	var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
-	var invalidElements = dialog.active.content.getElementsByClassName('invalid');
-
-	if(invalidElements.length){
-		if(dialog.active.validationWarning) dom.remove(dialog.active.getElementsByClassName('validationWarning'));
-
-		dialog.active.getElementsByClassName('default')[0].className = dialog.active.getElementsByClassName('default')[0].className.replace(/\s?active/, '');
-
-		for(var x = 0; x < invalidElements.length; ++x){
-			var validationWarning = dom.validate(invalidElements[x]);
-
-			if(validationWarning){
-				dialog.active.validationWarning = 1;
-
-				invalidElements[x].parentElement.insertBefore(dom.createElem('p', { className: 'validationWarning', textContent: validationWarning }), invalidElements[x]);
-			}
-		}
-
-		if(!dialog.active.validationWarning){
-			dialog.active.validationWarning = dom.createElem('p', { className: 'validationWarning', textContent: 'There are fields which require your attention!' });
-
-			dom.prependChild(dialog.active.content, dialog.active.validationWarning);
-		}
-
-		if(dialog.validation[dialogName]) dialog.validation[dialogName](invalidElements);
-
-		return;
-	}
 };
 
 dialog.err = function(message, onAdd){
