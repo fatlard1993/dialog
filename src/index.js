@@ -266,7 +266,7 @@ dom.interact.on('keyDown', function(evt){
 dom.interact.on('keyUp', function(evt){
 	if(!dialog.isOpen) return;
 
-	if(evt.keyPressed === 'ENTER' && (evt.ctrlKey || evt.target.nodeName !== 'TEXTAREA')){
+	if(evt.keyPressed === 'ENTER' && (evt.ctrlKey || (evt.target.nodeName !== 'TEXTAREA' && !dialog.isOpen.includes('ignoreReturn')))){
 		evt.preventDefault();
 
 		document.activeElement.blur();
