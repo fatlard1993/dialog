@@ -20,7 +20,7 @@ var dialog = function(className, heading, content, buttons, onAdd){
 	if(dialog.isOpen) return dialog.que.push(dialogSettings);
 
 	dialog.named = dialog.named || {};
-	dialog.isOpen = true;
+	dialog.isOpen = className || true;
 
 	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', prependTo: document.body });
 
