@@ -36,8 +36,7 @@ div#dialogWrapper {
 
 			text-align: center;
 			line-height: 17px;
-			padding: 13px;
-			width: 82%;
+			width: 92%;
 			margin: 5px auto;
 			color: black;
 			border-top: 1px solid grey;
@@ -68,15 +67,17 @@ div#dialogWrapper {
 			label:not(:last-of-type) {
 				margin-bottom: 6px;
 			}
-			label.surround {
+			label.surround, div.surround {
 				border: 2px solid grey;
+				padding: 3px;
+				margin-top: 2px;
 				line-height: 30px;
 
 				input {
 					margin-bottom: 6px !important;
 				}
 			}
-			label.surround:after {
+			label.surround:after, div.surround:after {
 				@extend .clear;
 			}
 		}
@@ -84,8 +85,8 @@ div#dialogWrapper {
 		button {
 			display: inline-block;
 			text-transform: capitalize;
-			width: 50%;
-			margin: 7px 25%;
+			width: 60%;
+			margin: 7px 20%;
 			padding: 3px 0;
 		}
 		button.b2 {
