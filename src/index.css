@@ -64,7 +64,7 @@ div#dialogWrapper {
 					width: 125px;
 				}
 			}
-			label:not(:last-of-type) {
+			label {
 				margin-bottom: 6px;
 			}
 			label.surround, div.surround {
@@ -86,8 +86,9 @@ div#dialogWrapper {
 			display: inline-block;
 			text-transform: capitalize;
 			width: 60%;
-			margin: 7px 20%;
+			margin: 0 20% 7px;
 			padding: 3px 0;
+			white-space: normal;
 		}
 		button.b2 {
 			width: 40%;
