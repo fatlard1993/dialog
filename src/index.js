@@ -234,7 +234,7 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 
 dialog.clearAll = function(){
 	dialog.que = [];
-	dialog.dismiss('cancel');
+	dialog.dismiss('Cancel');
 };
 
 dom.interact.on('pointerUp', function(evt){
@@ -277,7 +277,7 @@ dom.interact.on('keyUp', function(evt){
 	else if(evt.keyPressed === 'ESCAPE'){
 		evt.preventDefault();
 
-		dialog.dismiss('cancel');
+		dialog.dismiss('Cancel');
 	}
 
 	if(dialog.active && dialog.active.validationWarning){
