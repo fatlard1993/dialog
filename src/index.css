@@ -65,17 +65,12 @@ div#dialogWrapper {
 				}
 			}
 			label {
-				margin-bottom: 6px;
+				margin-bottom: 3px;
 			}
 			label.surround, div.surround {
 				border: 2px solid grey;
 				padding: 3px;
-				margin-top: 2px;
 				line-height: 30px;
-
-				input {
-					margin-bottom: 6px !important;
-				}
 			}
 			label.surround:after, div.surround:after {
 				@extend .clear;
@@ -86,7 +81,7 @@ div#dialogWrapper {
 			display: inline-block;
 			text-transform: capitalize;
 			width: 60%;
-			margin: 0 20% 7px;
+			margin: 0 20% 3px;
 			padding: 3px 0;
 			white-space: normal;
 		}
