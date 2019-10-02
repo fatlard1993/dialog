@@ -1,6 +1,6 @@
 {
 	"name": "dialog",
-	"version": "2.4.1",
+	"version": "2.4.2",
 	"description": "A simple js dialog interface",
 	"main": "src/index.js",
 	"mainCss": "src/index.css",
