@@ -13,7 +13,7 @@ var dialog = function(className, heading, content, buttons, onAdd){
 
 	if(typeof buttons === 'undefined') buttons = 1;
 	if(typeof buttons === 'string') buttons = buttons.split('|');
-	if(typeof buttons === 'number') buttons = [['x'], ['OK'], ['Cancel', 'OK']][buttons || 0];
+	if(typeof buttons === 'number') buttons = [['x'], ['OK'], ['OK', 'Cancel']][buttons || 0];
 
 	var dialogSettings = [className, heading, content, buttons, onAdd];
 
@@ -63,7 +63,7 @@ var dialog = function(className, heading, content, buttons, onAdd){
 				button.classList.add('x');
 			}
 
-			if((x + 1) === buttonCount) button.classList.add('default');
+			if(!x) button.classList.add('default');
 		}
 
 		dom.show(dialog.active, '', function(){
