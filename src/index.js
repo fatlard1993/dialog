@@ -123,12 +123,23 @@ dialog.dismiss = function(choice, evt){
 	if(dialog.resolve[dialogName]) dialog.resolve[dialogName](choice, evt);
 
 	dom.discard(dialog.active, null, function(){
-		dialog.isOpen = false;
-		dialog.closing = false;
+		if(dialog.que.length){
+			dialog.isOpen = false;
+			dialog.closing = false;
 
-		if(dialog.que.length) dialog.apply(null, dialog.que.shift());
+			dialog.apply(null, dialog.que.shift());
+		}
 
-		else setTimeout(function(){ dom.discard(dialog.wrapper); }, 200);
+		else setTimeout(function(){
+			dom.discard(dialog.wrapper, '' , function(){
+				setTimeout(function(){
+					dialog.isOpen = false;
+					dialog.closing = false;
+
+					if(dialog.que.length) dialog.apply(null, dialog.que.shift());
+				}, 300);
+			});
+		}, 200);
 
 		document.activeElement.blur();
 	}, 200);
