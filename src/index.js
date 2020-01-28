@@ -1,4 +1,4 @@
-// includes js-util dom log color-picker
+// includes js-util dom log
 // babel
 /* global util dom log colorPicker */
 
@@ -203,7 +203,7 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 	dialog(dialogID, heading, text, buttons, function(){
 		for(var x = 0; x < inputCount; ++x){
 			var inputType = (typeof inputs[inputNames[x]]).replace('string', 'text').replace('boolean', 'checkbox');
-			if(typeof ColorPicker !== 'undefined' && inputType === 'text' && inputs[inputNames[x]].startsWith('rgb')) inputType = 'colorPicker';
+			if(typeof colorPicker !== 'undefined' && inputType === 'text' && (inputs[inputNames[x]].startsWith('rgb(') || inputs[inputNames[x]].startsWith('hsl('))) inputType = 'colorPicker';
 
 			var input = inputType === 'colorPicker' ? colorPicker.create(inputs[inputNames[x]]) : document.createElement('input');
 			input.name = inputNames[x];
