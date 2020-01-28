@@ -196,30 +196,34 @@ dialog.tip = function(tipName){
 };
 
 dialog.form = function(heading, inputs, buttons, onResolve, text){
-	var dialogID = heading.replace(/\s/g, '_');
+	var dialogID = `${heading.replace(/\s/g, '_')}_${JSON.stringify(inputs)}`;
 	var inputNames = Object.keys(inputs), inputCount = inputNames.length;
 	var formObj = {};
 
 	dialog(dialogID, heading, text, buttons, function(){
 		for(var x = 0; x < inputCount; ++x){
 			var inputType = (typeof inputs[inputNames[x]]).replace('string', 'text').replace('boolean', 'checkbox');
+
 			if(typeof colorPicker !== 'undefined' && inputType === 'text' && (inputs[inputNames[x]].startsWith('rgb(') || inputs[inputNames[x]].startsWith('hsl('))) inputType = 'colorPicker';
 
 			var input = inputType === 'colorPicker' ? colorPicker.create(inputs[inputNames[x]]) : document.createElement('input');
 			input.name = inputNames[x];
 			input.type = inputType;
+			input.labelText = util.capitalize(util.fromCamelCase(inputNames[x]));
 
-			if(inputType === 'checkbox') input.checked = inputs[inputNames[x]];
+			if(inputType === 'text' && inputs[inputNames[x]].includes('$required$')){
+				input.validation = [/.{1,}/];
+				input.validationWarning = [`${input.labelText} is required`];
+				input.validate = 0;
+			}
+
+			else if(inputType === 'checkbox') input.checked = inputs[inputNames[x]];
 
 			else input.value = inputs[inputNames[x]];
 
 			formObj[inputNames[x]] = input;
 
-			var label = document.createElement('label');
-			label.textContent = util.capitalize(util.fromCamelCase(inputNames[x])) +': ';
-			label.appendChild(input);
-
-			dialog.active.content.appendChild(label);
+			dom.createElem('label', { textContent: input.labelText, appendChild: input, appendTo: dialog.active.content });
 
 			if(x === 0) input.select();
 		}
@@ -238,6 +242,7 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 			}
 
 			log()('[dialog]', formObj);
+
 			onResolve(choice, changesObj);
 		};
 	});
