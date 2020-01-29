@@ -162,7 +162,7 @@ dialog.success = function(message, onAdd){
 };
 
 dialog.tip = function(tipName){
-	dialog.tip.list = dialog.tip.list  || {};
+	dialog.tip.list = dialog.tip.list || {};
 
 	var tip;
 
