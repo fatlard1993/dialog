@@ -196,7 +196,7 @@ dialog.tip = function(tipName){
 };
 
 dialog.form = function(heading, inputs, buttons, onResolve, text){
-	var dialogID = `${heading.replace(/\s/g, '_')}_${JSON.stringify(inputs)}`;
+	var dialogID = heading.replace(/\s/g, '_');
 	var inputNames = Object.keys(inputs), inputCount = inputNames.length;
 	var formObj = {};
 
@@ -210,16 +210,21 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 			input.name = inputNames[x];
 			input.type = inputType;
 			input.labelText = util.capitalize(util.fromCamelCase(inputNames[x]));
+			input.initialText = inputs[inputNames[x]];
 
-			if(inputType === 'text' && inputs[inputNames[x]].includes('$required$')){
+			if(inputType === 'text' && input.initialText.includes('$required$')){
 				input.validation = [/.{1,}/];
 				input.validationWarning = [`${input.labelText} is required`];
 				input.validate = 0;
+
+				delete input.initialText;
 			}
 
-			else if(inputType === 'checkbox') input.checked = inputs[inputNames[x]];
+			else if(inputType === 'colorPicker') delete input.initialText;
 
-			else input.value = inputs[inputNames[x]];
+			else if(inputType === 'checkbox') input.checked = input.initialText;
+
+			else input.value = input.initialText;
 
 			formObj[inputNames[x]] = input;
 
@@ -238,10 +243,10 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 
 				else if(formObj[inputNames[x]].type === 'number') value = Number(value);
 
-				if(value !== inputs[inputNames[x]]) changesObj[inputNames[x]] = value;
+				if(value !== input.initialText) changesObj[inputNames[x]] = value;
 			}
 
-			log()('[dialog]', formObj);
+			log()('[dialog] Resolve form', formObj, changesObj);
 
 			onResolve(choice, changesObj);
 		};
