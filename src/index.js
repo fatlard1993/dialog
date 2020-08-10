@@ -110,7 +110,7 @@ dialog.dismiss = function(choice, evt){
 
 	var dialogName = dialog.active.className.replace(/error|warning|success|info|\s/g, '');
 
-	if({ OK: 1 }[choice]){
+	if({ OK: 1, save: 1, Save: 1 }[choice]){
 		var warnings = dom.showValidationWarnings(dialog.active.content);
 
 		if(dialog.active.getElementsByClassName('active')[0]) dialog.active.getElementsByClassName('active')[0].classList.remove('active');
