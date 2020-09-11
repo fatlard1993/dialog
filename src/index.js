@@ -73,12 +73,12 @@ var dialog = function(className, heading, content, buttons, onAdd){
 
 			document.activeElement.blur();
 
-			if(onAdd) onAdd();
-
 			setTimeout(function(){
 				var firstInput = dialog.active.getElementsByTagName('input')[0];
 
 				if(firstInput) firstInput.focus();
+
+				if(onAdd) onAdd();
 			}, 250);
 		});
 	});
