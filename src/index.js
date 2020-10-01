@@ -22,7 +22,7 @@ var dialog = function(className, heading, content, buttons, onAdd){
 	dialog.named = dialog.named || {};
 	dialog.isOpen = className || true;
 
-	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', prependTo: document.body });
+	dialog.wrapper = dialog.wrapper || document.getElementById('dialogWrapper') || dom.createElem('div', { id: 'dialogWrapper', className: 'discard disappear', prependTo: document.body });
 
 	dom.animation.add('write', function dialog_anim(){
 		if(!dialog.active){
@@ -41,6 +41,14 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		else{
 			dom.empty(dialog.active.content);
 			dom.empty(dialog.active.btnContainer);
+		}
+
+		if(className === '__init__'){
+			dialog.isOpen = false;
+
+			if(typeof heading === 'function') heading();
+
+			return;
 		}
 
 		dialog.active.className = className;
