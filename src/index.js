@@ -210,21 +210,21 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 			input.name = inputNames[x];
 			input.type = inputType;
 			input.labelText = util.capitalize(util.fromCamelCase(inputNames[x]));
-			input.initialText = inputs[inputNames[x]];
+			input.initialValue = inputs[inputNames[x]];
 
-			if(inputType === 'text' && input.initialText.includes('$required$')){
+			if(inputType === 'text' && input.initialValue.includes('$required$')){
 				input.validation = [/.{1,}/];
 				input.validationWarning = [`${input.labelText} is required`];
 				input.validate = 0;
 
-				delete input.initialText;
+				delete input.initialValue;
 			}
 
-			else if(inputType === 'colorPicker') delete input.initialText;
+			else if(inputType === 'colorPicker') delete input.initialValue;
 
-			else if(inputType === 'checkbox') input.checked = input.initialText;
+			else if(inputType === 'checkbox') input.checked = input.initialValue;
 
-			else input.value = input.initialText;
+			else input.value = input.initialValue;
 
 			formObj[inputNames[x]] = input;
 
@@ -236,15 +236,15 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 		dialog.resolve[dialogID] = function(choice){
 			var changesObj = {};
 
-			for(var x = 0; x < inputCount; ++x){
-				var value = formObj[inputNames[x]].value;
+			inputNames.forEach((name) => {
+				var value = formObj[name].value, initialValue = formObj[name].initialValue, type = formObj[name].type;
 
-				if(formObj[inputNames[x]].type === 'checkbox') value = formObj[inputNames[x]].checked;
+				if(type === 'checkbox') value = formObj[name].checked;
 
-				else if(formObj[inputNames[x]].type === 'number') value = Number(value);
+				else if(type === 'number') value = Number(value);
 
-				if(value !== input.initialText) changesObj[inputNames[x]] = value;
-			}
+				if(value !== initialValue) changesObj[name] = value;
+			});
 
 			log()('[dialog] Resolve form', formObj, changesObj);
 
