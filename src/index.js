@@ -1,6 +1,8 @@
-// includes js-util dom log
-// babel
-/* global util dom log colorPicker */
+/* global colorPicker */
+
+import Log from 'log';
+import util from 'js-util';
+import dom from 'dom';
 
 var dialog = function(className, heading, content, buttons, onAdd){
 	if(className instanceof Object){
@@ -91,6 +93,8 @@ var dialog = function(className, heading, content, buttons, onAdd){
 		});
 	});
 };
+
+dialog.log = new Log({ tag: 'dialog' });
 
 dialog.fix = function(){
 	if(dialog.isOpen){
@@ -254,7 +258,7 @@ dialog.form = function(heading, inputs, buttons, onResolve, text){
 				if(value !== initialValue) changesObj[name] = value;
 			});
 
-			log()('[dialog] Resolve form', formObj, changesObj);
+			dialog.log()('Resolve form', formObj, changesObj);
 
 			onResolve(choice, changesObj);
 		};
