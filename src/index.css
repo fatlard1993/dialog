@@ -1,7 +1,7 @@
 // includes dom
 
 div#dialogWrapper {
-	@extend .hideable;
+	@mixin hideable;
 
 	position: fixed;
 	width: 100%;
@@ -12,7 +12,7 @@ div#dialogWrapper {
 	background-color: rgba(255, 255, 255, 0.2);
 
 	div#dialog {
-		@extend .discardable;
+		@mixin discardable;
 
 		position: relative;
 		top: 10%;
@@ -73,7 +73,7 @@ div#dialogWrapper {
 				line-height: 30px;
 			}
 			label.surround:after, div.surround:after {
-				@extend .clear;
+				@mixin clearFix;
 			}
 		}
 
